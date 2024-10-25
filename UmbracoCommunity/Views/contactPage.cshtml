@@ -1,0 +1,10 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@using UmbracoCommunity.ViewModels
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@{
+	Layout = "master.cshtml";
+}
+
+@{
+    Html.RenderPartial("~/Views/ContactForm.cshtml", new ContactForm());
+}

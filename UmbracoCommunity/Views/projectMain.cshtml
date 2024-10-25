@@ -1,0 +1,43 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@{
+    Layout = "master.cshtml";
+    
+    var projects = Model.Children.OfType<ProjectItem>();
+}
+
+@Html.Partial("myviews/finishedprojects")
+
+
+<h1>@Model.Value("title")</h1>
+<h2>@Model.Value("mainContent")</h2>
+
+@{
+	var selectionProjects = @Umbraco.Content(Guid.Parse("d15cdfb9-94b5-4769-9df0-1c9dc39c1152"))
+    .ChildrenOfType("projectItem")
+    .Where(x => x.IsVisible()).ToArray();
+}
+
+@if (projects != null && projects.Any())
+{
+    <h3>Projects</h3>
+
+<p>
+nr of projects = @selectionProjects.Count()
+</p>
+
+    <ul>
+    @foreach (var project in projects)
+    {
+        <li>
+            <h4>@project.Value("title")</h4>
+            <p>@project.Value("mainContent")</p>
+            <p><a href="@project.Url()">Read more</a></p>
+        </li>
+    }
+    </ul>
+}
+else
+{
+    <p>No projects found.</p>
+}

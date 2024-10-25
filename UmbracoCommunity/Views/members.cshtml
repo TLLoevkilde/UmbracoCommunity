@@ -1,0 +1,15 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@using Umbraco.Cms.Core.Services;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@{
+	Layout = "master.cshtml";
+}
+
+@inject IMemberService MemberService
+@{
+    var membersActive = MemberService.GetMembersByGroup("Active");
+    var membersProspect = MemberService.GetMembersByGroup("Prospect");
+}
+
+@Html.Partial("myviews/activemembers", membersActive)
+@Html.Partial("myviews/prospectmembers", membersProspect)

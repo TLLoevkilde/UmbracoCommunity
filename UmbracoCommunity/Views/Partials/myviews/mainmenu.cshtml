@@ -1,0 +1,73 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@using Umbraco.Cms.Core
+@using Umbraco.Cms.Core.Models.PublishedContent
+@using Umbraco.Cms.Core.Routing
+@using Umbraco.Extensions
+
+@inject IPublishedValueFallback PublishedValueFallback
+@inject IPublishedUrlProvider PublishedUrlProvider
+
+@{
+    var selection = Model.Root().Children.Where(x => x.IsVisible()).ToArray();
+}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="/">Home</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+        @foreach (var item in selection)
+        {
+            if (item.ContentType.Alias == "projectsMain") 
+            {
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="@item.Url()" id="navbarDropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        @item.Name
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        @foreach (var child in item.Children)
+                        {
+                            <li><a class="dropdown-item" href="@child.Url()">@child.Name</a></li>
+                        }
+                    </ul>
+                </li>
+            }
+            else
+            {
+                <li class="nav-item">
+                    <a class="nav-link" href="@item.Url()">@item.Name</a>
+                </li>
+            }
+        } 
+    </ul>
+  </div>
+</nav>
+
+<!-- Tilføj CSS direkte i dit partial view eller til dit eget stylesheets -->
+<style>
+    /* Vis dropdown-menuen ved hover */
+    .nav-item.dropdown:hover .dropdown-menu {
+        display: block;
+    }
+
+    /* Fjern caret animation (den lille pil) ved hover */
+    .nav-item.dropdown .dropdown-toggle::after {
+        display: none;
+    }
+    
+</style>
+
+<!-- Tilføj jQuery script for at tillade klik på hovedmenuen -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Tillad klik på hovedmenuen for at navigere til siden
+        document.querySelectorAll('.nav-item.dropdown > a').forEach(function(element) {
+            element.addEventListener('click', function(event) {
+                // Gå til URL'en
+                window.location.href = this.getAttribute('href');
+            });
+        });
+    });
+</script>

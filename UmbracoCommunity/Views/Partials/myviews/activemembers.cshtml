@@ -1,0 +1,12 @@
+﻿@model IEnumerable<Umbraco.Cms.Core.Models.IMember>
+
+<h4>Active Members</h4>
+@foreach (var member in Model) 
+{
+    <p>
+        @(member.GetValue("firstname") + " " + member.GetValue("lastname"))<br />
+        @member.GetValue("address")<br />
+        @(member.GetValue("zip") + " " + member.GetValue("city"))<br />
+        Mobile: @member.GetValue("mobile")<br />
+    </p>
+}

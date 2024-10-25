@@ -1,0 +1,12 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@Html.Partial("myviews/mainmenu")
+@{
+	Layout = "master.cshtml";
+}
+<h1>
+@Model.Value("title")
+</h1>
+
+
+<h2>@Model.Value("mainContent")</h2>

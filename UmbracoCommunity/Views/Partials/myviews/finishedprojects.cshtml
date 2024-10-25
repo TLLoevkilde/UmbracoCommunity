@@ -1,0 +1,26 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@using Umbraco.Cms.Core
+@using Umbraco.Cms.Core.Models.PublishedContent
+@using Umbraco.Cms.Core.Routing
+@using Umbraco.Extensions
+
+@inject IPublishedValueFallback PublishedValueFallback
+@inject IPublishedUrlProvider PublishedUrlProvider
+
+
+
+@{
+	var selection = Umbraco.Content(Guid.Parse("d15cdfb9-94b5-4769-9df0-1c9dc39c1152"))
+    .ChildrenOfType("projectItem")
+    .Where(x => x.IsVisible())
+    .OrderByDescending(x => x.UpdateDate).Where(x => x.Value<string>("status")=="Finished") ;
+}
+<ul>
+	@foreach (var item in selection)
+	{
+		<li>
+			<a href="@item.Url()">@item.Name()</a>
+		</li>
+	}
+</ul>
+

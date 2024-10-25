@@ -1,0 +1,30 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@{
+    Layout = "master.cshtml";
+    
+    var articles = Model.Children.OfType<ArticleItem>();
+}
+
+<h1>@Model.Value("title")</h1>
+<h2>@Model.Value("mainContent")</h2>
+
+@if (articles != null && articles.Any())
+{
+   
+    <ul>
+    @foreach (var article in articles)
+    {
+        <li>
+            <h4>@article.Value("title")</h4> 
+            <p>@article.Value("mainContent")</p> 
+            <p>Published on: @article.Value("date")</p> 
+            <p><a href="@article.Url()">Read more</a></p> 
+        </li>
+    }
+    </ul>
+}
+else
+{
+    <p>No articles found.</p>
+}

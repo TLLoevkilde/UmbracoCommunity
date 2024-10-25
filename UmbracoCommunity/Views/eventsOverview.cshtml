@@ -1,0 +1,30 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@{
+    Layout = "master.cshtml";
+    
+    var events = Model.Children.OfType<Event>();
+}
+
+<h1>@Model.Value("eventsTitle")</h1>
+<p>@Model.Value("eventsBody")</p>
+
+@if (events != null && events.Any())
+{
+    <h2>Kommende Events</h2>
+    <ul>
+    @foreach (var evt in events)
+    {
+        <li>
+            <h3>@evt.Value("eventTitle")</h3>
+            <p>@evt.Value("eventDescription")</p>
+            <p>Dato: @evt.Value("eventDate")</p>
+            <p><a href="@evt.Url()">Læs mere</a></p>
+        </li>
+    }
+    </ul>
+}
+else
+{
+    <p>Ingen kommende events fundet.</p>
+}

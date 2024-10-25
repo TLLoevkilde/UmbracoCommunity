@@ -1,0 +1,49 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@using Umbraco.Cms.Core.Models.Blocks;
+@{
+    Layout = "master.cshtml";
+    
+    var speakers = Model.Value<IEnumerable<BlockListItem>>("speakers").Select(x=>x.Content);
+}
+
+<h1>@Model.Value("eventTitle")</h1>
+<p>@Model.Value("eventDescription")</p>
+<p>Dato: @Model.Value("eventDate")</p>
+
+
+@if (speakers != null && speakers.Any())
+{
+    <h2>Talere</h2>
+    <ul>
+    @foreach (var speaker in speakers)
+    {
+        <li>
+            <h3>@speaker.Value("firstName") @speaker.Value("lastName")</h3>
+            <p>@speaker.Value("speakerBio")</p>
+        </li>
+    }
+    </ul>
+}
+else
+{
+    <p>Ingen talere tilknyttet dette event.</p>
+}
+
+
+@{
+
+    IPublishedContent location = Model.Value<IPublishedContent>("location");
+    if(location != null)
+    {
+        <p>
+            @location.Name -
+            @location.Value("address"), 
+            @location.Value("zip")
+            @location.Value("city")
+
+        </p>
+    }
+
+}
