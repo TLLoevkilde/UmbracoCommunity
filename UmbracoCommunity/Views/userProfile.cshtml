@@ -1,0 +1,30 @@
+﻿@using Umbraco.Cms.Core.Services;
+@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@inject IMemberService MemberService
+
+@{
+    Layout = "master.cshtml";
+    var isLoggedIn = Context.User?.Identity?.IsAuthenticated ?? false;
+}
+
+@if (isLoggedIn)
+{
+    var user = Context.User.Identity;
+    var username = user.Name; // Eller brug GetUserName, afhængigt af opsætning
+    var member = MemberService.GetByUsername(username);
+
+    if (member != null)
+    {
+        <p>
+            @(member.GetValue("firstname") + " " + member.GetValue("lastname"))<br />
+            @member.GetValue("address")<br />
+            @(member.GetValue("zip") + " " + member.GetValue("city"))<br />
+            Mobile: @member.GetValue("mobile")<br />
+            @{
+                var memberImage = member.GetValue<string>("photo");
+            }
+            <img src="@(memberImage ?? "")" />
+        </p>
+    }
+}
