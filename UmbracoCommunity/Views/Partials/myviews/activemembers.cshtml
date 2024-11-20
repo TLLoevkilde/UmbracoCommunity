@@ -8,5 +8,11 @@
         @member.GetValue("address")<br />
         @(member.GetValue("zip") + " " + member.GetValue("city"))<br />
         Mobile: @member.GetValue("mobile")<br />
+        @{
+           
+            var memberImage = member.GetValue<string>("photo");
+        }
+        <img src="@(memberImage != null ? memberImage : "")" />
+
     </p>
 }
